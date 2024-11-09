@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Render Manim Scene",
+            "type": "process",
+            "command": "manim",
+            "args": [
+                "-pql",  // low quality (480p)
+                "${file}",  // current file
+                "SceneName"  // replace with your actual scene name
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "C_Cpp.errorSquiggles": "disabled"
+}
