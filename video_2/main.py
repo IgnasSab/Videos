@@ -39,10 +39,17 @@ class BackgroundColorScene(Scene):
         # Add any other elements you want to the scene
         text = Text("""
         
-        \"God created the natural numbers; all else is the work of man.\"\n
-        \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t - Leopold Kronecker
-        
-        """).scale(0.6)
+        \"The definition of number, as that which is common to all collections of a given cardinal number, \n
+        is purely logical and involves no assumption beyond the fundamental principles of logic.\"\n
+        \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t - Bertrand Russell
+        """).scale(0.45)
         # self.add(text)
         self.play(Write(text), time_frame = 2)
-        self.wait(3);
+        self.wait(5);
+
+class Introduction(Scene):
+    def construct(self):
+        # Set background color to #FFB38E
+        self.camera.background_color = "#DE8F5F"
+        
+        
