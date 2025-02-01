@@ -1,0 +1,9 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/887926404_3629845294_2358810818.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/1809052571_1786966945_3382680140.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/1809052571_2990969059_4092485497.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/1809052571_2800018093_1873794939.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/1809052571_252396837_2108644009.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/1809052571_3567599002_3357289046.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/1809052571_515771974_3142900428.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/480p15/partial_movie_files/Introduction/1809052571_784179552_108807920.mp4'
