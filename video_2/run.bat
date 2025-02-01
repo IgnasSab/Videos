@@ -1,1 +1,1 @@
-manim -pql main.py Introduction
+manim -pql test.py Test

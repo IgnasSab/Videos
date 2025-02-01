@@ -2,6 +2,16 @@
 
 Welcome back! In our last video, we explored the creation of natural numbers and their operations like addition and multiplication. Today, we will take a step further and delve into the world of integers. To be perfectly clear, we will talk about numbers that very much resemble natural ones, that we described in the previous video, but with a negative counterpart. We will see how integers can be constructed using natural numbers as building blocks, and explore explore their addition, subtraction, and multiplication. 
 
+= Contents
+
+I will briefly go through the rough contents of this video. I will firstly define 
+
+1. Cartesian product and Relation (We will firstly define Cartesian Product and introduce the Mathematical notion of Relation alongside the associated concepts)
+2. Define integers (We will proceed to define integers in terms of the aforementioned tools)
+3. Define addition and multiplication (Moreover, introduce addition and multiplication of integers and provide a few examples to give a better intuition)
+4. Conclusion (And finally, conclude the video with a thorough revision of everything we've done so far)
+
+
 = Cartesian Product
 
 Before we delve into the actual material, I would like to introduce some definitions first. We will introduce a set operation called cartesian product. It is defined as follows: Given two sets A and B, the cartesian product of A and B is the set of all ordered pairs $(a, b)$ (ordered here means that $(a, b) != (b, a)$) where a is an element of A and b is an element of B. So for example, if $A = {1, 2}$ and $B = {3, 4}$, then the cartesian product of A and B is the set of all ordered pairs $(a, b)$ where $a$ is in $A$ and $b$ is in $B$, which is equal to 
