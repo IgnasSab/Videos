@@ -530,6 +530,278 @@ class Relations(Scene):
 
         self.play(FadeOut(dots, labels, relation_text, equation, graph, axes, x_label, y_label))
 
+class EquivalenceRelations(Scene):
+    def construct(self):
+        self.camera.background_color = "#DE8F5F"
+        # Step 1: Title
+        title = Text("Equivalence Relations").to_edge(UP)
+        self.play(Write(title))
+        self.wait(1)
+
+        # Step 2: Define Reflexivity, Symmetry, Transitivity
+        reflexive_text = Tex(r"1. Reflexive: $(a, a) \in R$ for all $a \in A$")
+        symmetric_text = Tex(r"2. Symmetric: If $(a, b) \in R$, then $(b, a) \in R$")
+        transitive_text = Tex(r"3. Transitive: If $(a, b) \in R$ and $(b, c) \in R$, then $(a, c) \in R$")
+        denoted_as = Tex(r"If $ (a, b) \in R $ and $R$ is equivalence relation, then $a \sim b$")
+
+
+        properties = VGroup(reflexive_text, symmetric_text, transitive_text, denoted_as).arrange(DOWN, buff=0.5, aligned_edge = LEFT).move_to(ORIGIN)
+
+        self.play(Write(properties, time_frame = 2))
+        self.wait(2)
+
+        # Lets see an example of each of them
+        self.play(FadeOut(symmetric_text, transitive_text, denoted_as), reflexive_text.animate.next_to(title, DOWN, buff = 0.5));
+        set_a = MathTex(r"A = \{1, 2, 3\}")
+
+        self.play(Write(set_a))
+        self.wait(2)
+
+        symmetric_text.next_to(title, DOWN, buff = 0.5)
+        transitive_text.next_to(title, DOWN, buff = 0.5)
+
+        self.play(set_a.animate.to_corner(UL).shift(0.1 * DOWN))
+        surround_rec = SurroundingRectangle(set_a, color = BLACK, stroke_width = 4)
+        background_rec = BackgroundRectangle(set_a, color=BLACK, fill_opacity=0.2, buff = 0.1)
+        self.play(FadeIn(surround_rec, background_rec))
+
+
+        r_1 = MathTex(r"R =", r" \{ (1, 1), (2, 2), (1, 2), (3, 3) \}")
+        r_2 = MathTex(r"R =", r" \{ (1, 1), (2, 2), (1, 2), (2, 1) (3, 3) \}")
+        r_3 = MathTex(r"R =", r" \{ (1, 2), (2, 3) \}")
+        r_4 = MathTex(r"R =", r" \{ (1, 2), (2, 3), (1, 3) \}")
+        
+        self.play(Write(r_1))
+
+        recs = hgh([0, 1, 3], r_1, YELLOW)
+        for rec in recs:
+            self.play(FadeIn(rec));
+            self.wait(1);
+        for rec in recs:
+            self.play(FadeOut(rec))
+
+        recs = hgh([2], r_1, RED)
+        for rec in recs:
+            self.play(FadeIn(rec));
+            self.wait(1);
+        for rec in recs:
+            self.play(FadeOut(rec))    
+
+        self.play(ReplacementTransform(r_1, r_2), ReplacementTransform(reflexive_text, symmetric_text))
+        self.wait(2)
+        
+        recs = hgh([2, 3], r_2, YELLOW)
+        for rec in recs:
+            self.play(FadeIn(rec));
+            self.wait(1);
+        for rec in recs:
+            self.play(FadeOut(rec))
+
+        self.play(ReplacementTransform(symmetric_text, transitive_text), ReplacementTransform(r_2, r_3))
+        self.wait(2)
+        recs = hgh([0, 1], r_3, RED)
+        for rec in recs:
+            self.play(FadeIn(rec));
+            self.wait(1);
+        for rec in recs:
+            self.play(FadeOut(rec))
+
+        self.play(ReplacementTransform(r_3, r_4))
+        recs = hgh([0, 1, 2], r_3, YELLOW)
+        for rec in recs:
+            self.play(FadeIn(rec));
+            self.wait(1);
+        for rec in recs:
+            self.play(FadeOut(rec))
+        self.wait(2)
+        
+        self.play(FadeOut(transitive_text, r_4, background_rec, surround_rec, set_a))
+        
+        # Step 3: Example - Set A and Relation R
+        set_a = MathTex(r"A = \{ 1, 2, 3, 4, 5\}").shift(UP * 2)
+        relation_r = MathTex(r"R = \{ (a, b) \mid a + b \text{ is even} \}").shift(UP)
+
+        self.play(Write(set_a));
+        self.wait(1)
+        self.play(Write(relation_r))
+        self.wait(2)
+
+        self.play(FadeOut(set_a), relation_r.animate.shift(UP))
+
+        # Step 4: Cartesian Plane Representation
+        axes = NumberPlane(
+            x_range=[0, 6, 1], y_range=[0, 6, 1], axis_config={"include_numbers": True}
+        ).set_opacity(1).scale(0.8).shift(DOWN)
+
+
+        # Step 5: Plot Relation (a, b) where a + b is even
+        points = [(1,1), (1,3), (1,5), (2,2), (2,4), (3,1), (3,3), (3,5), (4,2), (4,4), (5,1), (5,3), (5,5)]
+        dots = VGroup(*[Dot(axes.c2p(a, b), color=RED) for a, b in points])
+        labels = VGroup(
+            *[
+                MathTex(f"({a},{b})", font_size = 30).next_to(Dot(axes.c2p(a, b)), UR, buff=0.1)
+                for a, b in points
+            ]
+        )
+
+        self.play(Create(axes))
+        self.wait(1)
+        self.play(FadeIn(dots), Write(labels))
+        self.wait(2)
+
+        # Step 6: Highlight Reflexivity
+        reflexive_pairs = [(1,1), (2,2), (3,3), (4,4), (5,5)]
+        reflexive_dots = VGroup(*[Dot(axes.c2p(a, a), color=GREEN) for a, _ in reflexive_pairs])
+        self.play(FadeIn(reflexive_dots))
+        self.wait(2)
+        self.play(FadeOut(reflexive_dots))
+        self.wait(2)
+
+        # Step 7: Highlight Symmetry
+        symmetric_pairs = [(1,3), (3,1), (1,5), (5,1), (2,4), (4,2), (3,5), (5,3)]
+        symmetric_dots = VGroup(*[Dot(axes.c2p(a, b), color=GREEN) for a, b in symmetric_pairs])
+        for i in range(0, 8, 2):
+            self.play(FadeIn(symmetric_dots[i], symmetric_dots[i+1]))
+            self.wait(2);
+            self.play(FadeOut(symmetric_dots[i], symmetric_dots[i+1]))
+
+        self.wait(2)
+
+        # Step 8: Highlighst Transitivity
+        transitive_triplets = [(1,3), (3,5), (1,5), (3, 1), (5, 3), (5, 1)]
+        transitive_dots = VGroup(*[Dot(axes.c2p(a, b), color=GREEN) for a, b in transitive_triplets])
+        for i in range(0, 6, 3):
+            self.play(FadeIn(transitive_dots[i], transitive_dots[i+1], transitive_dots[i+2]))
+            self.wait(2);
+            self.play(FadeOut(transitive_dots[i], transitive_dots[i+1], transitive_dots[i+2]))
+        self.wait(2)
+
+        self.play(FadeOut(axes, dots, labels, relation_r))
+
+        # Why are equivalence relations useful
+                # Step 9: Introduce Equivalence Classes Definition
+        eq_class_def = Tex(
+            r"For $a \in A$, the equivalence class $[a]$ is defined as:", 
+            r"\[ [a] = \{ b \in A \mid a \sim b \} \]"
+        ).move_to(ORIGIN)
+
+        self.play(Write(eq_class_def))
+        self.wait(3)
+
+        self.play(FadeOut(eq_class_def[0]), eq_class_def[1].animate.next_to(title, DOWN, buff = 0.5))
+
+        # Step 10: Show Equivalence Classes for the Given Relation
+        class_1 = MathTex(r"[1] = \{1, 3, 5\}").set_color(BLUE).to_edge(LEFT)
+        class_2 = MathTex(r"[2] = \{2, 4\}").set_color(YELLOW).next_to(class_1, DOWN, buff=0.5)
+
+        self.play(Write(class_1))
+        self.play(Write(class_2))
+        self.wait(2)
+
+
+
+        # Step 11: Group the Elements in A According to Equivalence Classes
+        odd_numbers = [(1,1), (1,3), (1,5), (3,1), (3,3), (3,5), (5,1), (5,3), (5,5)]
+        even_numbers = [(2,2), (2,4), (4,2), (4,4)]
+
+        odd_dots = VGroup(*[Dot(axes.c2p(a, b), color=BLUE) for a, b in odd_numbers])
+        even_dots = VGroup(*[Dot(axes.c2p(a, b), color=YELLOW) for a, b in even_numbers])
+
+        self.play(FadeIn(axes, labels, odd_dots, even_dots))
+        self.wait(2)
+
+        
+        # Step 11: Show that choosing 3 as the representative is valid
+        class_1_new = MathTex(r"[3] = \{1, 3, 5\}").set_color(BLUE).to_edge(LEFT)
+        class_2_new = MathTex(r"[4] = \{2, 4\}").set_color(YELLOW).next_to(class_1_new, DOWN, buff=0.5)
+
+        self.play(Transform(class_1, class_1_new), Transform(class_2, class_2_new))
+        self.wait(2)
+
+        # Step 12: Show that choosing 5 as the representative also works
+        class_1_final = MathTex(r"[5] = \{1, 3, 5\}").set_color(BLUE).to_edge(LEFT)
+        class_2_final = MathTex(r"[2] = \{2, 4\}").set_color(YELLOW).next_to(class_1_final, DOWN, buff=0.5)
+
+        self.play(Transform(class_1, class_1_final), Transform(class_2, class_2_final))
+        self.wait(2)
+
+        # Step 13: Fade Out Everything
+        self.play(FadeOut(axes, eq_class_def[1], class_1, class_2, odd_dots, even_dots, labels))
+        self.wait(2)
+
+        # Addition of classes:
+
+                # Step 2: Define Addition
+        addition_def = MathTex(r"[a] + [b] = [a + b]").shift(UP)
+        self.play(Write(addition_def))
+        self.wait(1)
+
+        # Step 3: Define Multiplication
+        multiplication_def = MathTex(r"[a] \cdot [b] = [a \cdot b]").shift(DOWN)
+        self.play(Write(multiplication_def))
+        self.wait(2)
+
+        # Step 4: Transition to Example (Parity Equivalence Classes)
+        self.play(FadeOut(addition_def, multiplication_def))
+
+        # Step 5: Write Equivalence Classes
+        odd_class = MathTex(r"[1] = \{\text{odd numbers}\}").set_color(BLUE).shift(LEFT * 3 + UP)
+        even_class = MathTex(r"[2] = \{\text{even numbers}\}").set_color(YELLOW).shift(LEFT * 3 + DOWN)
+
+        self.play(Write(even_class), Write(odd_class))
+        self.wait(2)
+
+        # Step 6: Show Addition Rules
+        addition_rule_2 = MathTex(
+            r"\begin{aligned}"
+            r"\text{even} + \text{even} &= \text{even} \\"
+            r"\text{odd} + \text{odd} &= \text{even} \\"
+            r"\text{even} + \text{odd} &= \text{odd}"
+            r"\end{aligned}"
+        ).shift(RIGHT * 3 + UP * 1)
+
+        # Step 7: Show Multiplication Rules
+        multiplication_rule_2 = MathTex(
+            r"\begin{aligned}"
+            r"\text{even} \times \text{even} &= \text{even} \\"
+            r"\text{odd} \times \text{odd} &= \text{odd} \\"
+            r"\text{even} \times \text{odd} &= \text{even}"
+            r"\end{aligned}"
+        ).next_to(addition_rule_2, DOWN, buff=1)
+
+        addition_rule = MathTex(
+            r"\begin{aligned}"
+            r"\left[2\right] + \left[2\right] &= \left[2\right] \\"  
+            r"\left[1\right] + \left[1\right] &= \left[2\right] \\"  
+            r"\left[2\right] + \left[1\right] &= \left[1\right]"
+            r"\end{aligned}"
+        ).shift(RIGHT * 3 + UP * 1)
+
+
+        multiplication_rule = MathTex(
+            r"\begin{aligned}"
+            r"\left[2\right] \times \left[2\right] &= \left[2\right] \\"  # Even * Even = Even
+            r"\left[1\right] \times \left[1\right] &= \left[1\right] \\"  # Odd * Odd = Odd
+            r"\left[2\right] \times \left[1\right] &= \left[2\right]"
+            r"\end{aligned}"
+        ).next_to(addition_rule, DOWN, buff=1)
+
+
+        self.play(Write(addition_rule))
+        self.wait(2)
+        self.play(Write(multiplication_rule))
+        self.wait(2)
+
+
+        self.play(Transform(addition_rule, addition_rule_2))
+        self.wait(3)
+        self.play(Transform(multiplication_rule, multiplication_rule_2))
+        self.wait(3);
+
+        # Step 8: Fade Out Everything
+        self.play(FadeOut(title, even_class, odd_class, addition_rule, multiplication_rule))
+        self.wait(2)
+
         
 
 

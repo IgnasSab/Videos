@@ -48,3 +48,11 @@ def setup(self, txt):
     title = Text(txt, font_size=48)
     title.to_edge(UP*0.9)
     self.play(Write(title))
+
+    
+def hgh(pos, tuples, cl):
+    remove = []
+    for i, ind in enumerate(pos):
+        rec = SurroundingRectangle(tuples[1][1 + ind * 6: 1 + ind * 6 + 5], color = cl, buff = 0.1)
+        remove.append(rec);
+    return remove
