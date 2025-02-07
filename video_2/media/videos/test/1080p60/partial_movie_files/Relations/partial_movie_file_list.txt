@@ -1,0 +1,13 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/3977891868_3897333661_223132457.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_784179552_1161729254.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_3041403687_2917396357.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_2919340033_2593609725.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_193948644_934301474.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_2919340033_3417958636.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_1241940459_2619512703.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_3805109242_2374410018.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_2919340033_3373545825.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_833160156_358832400.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_784179552_2184373199.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/test/1080p60/partial_movie_files/Relations/2852726489_3653352610_1749339681.mp4'

@@ -127,10 +127,7 @@ class TitlePage(Scene):
 
 class CartesianProduct(Scene):
     def construct(self):
-        self.camera.background_color = "#DE8F5F"
-        title = Text("Cartesian Product", font_size=48)
-        title.to_edge(UP*0.9)
-        self.play(Write(title))
+        setup(self, "Cartesian Product")
         # Step 1: Introduce Set A (Yellow) and Set B (Blue)
         set_a = MathTex(r"A = \{1, 2, 3\}").shift(LEFT * 2)
         set_b = MathTex(r"B = \{3, 4\}").shift(RIGHT * 2)
@@ -238,7 +235,6 @@ class CartesianProduct(Scene):
             ]
         )
 
-        # Fade in dots and labels one by one
         # Fade in dots and labels one by one with surrounding rectangles
         for i, (dot, label) in enumerate(zip(dots, labels)):
             rect = SurroundingRectangle(cartesian_c[0][6 + i * 6 - 1:11 + i * 6 - 1], color=RED)
@@ -248,7 +244,7 @@ class CartesianProduct(Scene):
             self.play(FadeOut(rect))
         self.wait(2)
 
-        self.play(*[FadeOut(mobj) for mobj in self.mobjects if mobj != title])
+        self.play(FadeOut(*self.mobjects))
 
         # Step 1: Display the definition of the Cartesian product
         NN = MathTex(
@@ -300,9 +296,242 @@ class CartesianProduct(Scene):
 
         self.wait(1)
 
+class Relations(Scene):
+    def construct(self):
+        setup(self, "Relations")
+
+        # Step 2: Define set A
+        set_a = MathTex(r"A = \{1, 2, 3\}")
+        A = set_a[0][0].copy();
+        self.play(Write(A.move_to(ORIGIN)))
+        self.wait(2)
+
+        self.play(A.animate.shift(2 * UP))
+
+        relation = MathTex(r"R \subseteq A \times A").move_to(ORIGIN);
+
+        self.play(Write(relation[0][0]));
+        self.wait(2);
+        self.play(Write(relation[0][1:]));
+        self.wait(2)
+        
+        # Lets see an example...
+        set_a.shift(2 * UP)
+        self.play(Transform(A, set_a));
+
+        # Step 3: Show Cartesian Product A × A
+        cart_product_text = MathTex(
+            r"A \times A = \{ (1,1), (1,2), (1,3),",
+            r"(2,1), (2,2), (2,3),",
+            r"(3,1), (3,2), (3,3) \}"
+        ).shift(UP)
+
+        self.play(Write(cart_product_text))
+        self.wait(2)
+
+        # Step 7: Define Relation R
+        relationc = relation.copy()
+        relation_r_text = MathTex(r"R = \{ (1,1), (1,2), (2,1), (2,2), (3,3) \}").move_to(ORIGIN);
+        self.play(Transform(relation, relation_r_text))
+        self.wait(2)
+        self.play(Write(relationc[0][1:].next_to(relation_r_text)))
+
+        self.wait(2);
+        self.play(FadeOut(relationc[0][1:], relation, set_a, cart_product_text, A), relation_r_text.animate.shift(2 * UP))
+
+    
+        # Step 4: Transition to a 2D Grid for Cartesian Product
+        grid = NumberPlane(x_range=[0, 4, 1], y_range=[0, 4, 1], axis_config={"include_numbers": True, "font_size":35}).scale(0.8).shift(DOWN)
+        self.play(Create(grid))
+        self.wait(1)
+
+        # Step 6: Show all pairs in A × A with dots
+        pairs = [
+            (1,1), (1,2), (1,3),
+            (2,1), (2,2), (2,3),
+            (3,1), (3,2), (3,3),
+        ]
+        all_dots = VGroup(*[Dot(grid.c2p(x, y), color=GRAY) for x, y in pairs])
+        self.play(FadeIn(all_dots))
+        self.wait(2)
 
 
+        # Step 8: Highlight Relation R on the Grid
+        relation_pairs = [(1,1), (1,2), (2,1), (2,2), (3,3)]
+        relation_dots = VGroup(*[Dot(grid.c2p(x, y), color=RED) for x, y in relation_pairs])
+        self.play(FadeIn(relation_dots))
+        self.wait(2)
+
+        # Step 10: Transition to Non-Numeric Example
+        self.play(FadeOut(grid, all_dots, relation_dots))
+        self.wait(2)
+
+        # There is another way to look at it:
+        # Step 2: Define the tuples manually (positions in the MathTex string)
+        tuples = ["(1,1)", "(1,2)", "(2,1)", "(2,2)", "(3,3)"]
+        tuple_positions = [3, 9, 15, 21, 27]  # Indices of each tuple in the MathTex string
+        remove = []
+        for i, (tup, pos) in enumerate(zip(tuples, tuple_positions)):
+            # Highlight the tuple with a SurroundingRectangle
+            rect = SurroundingRectangle(relation_r_text[0][pos:pos+5], color=YELLOW)
+
+            # Extract numbers from tuple "(a,b)"
+            a, b = tup[1], tup[3]  # Extracting numbers from string format "(a,b)"
+            if i >= 2:
+                relation_text = MathTex(f"{a} \\: R \\: {b}")
+                remove.append(relation_text);
+            else:
+                relation_text = MathTex(f"({a},{b}) \\in R")
+                remove.append(relation_text);
+                        
+            relation_text.shift(2 * UP + (i+1) * DOWN)
+
+            # Animate highlight and display relation statement
+            self.play(Create(rect))
+            self.wait(1)
+            self.play(Write(relation_text))
+            self.wait(1)
+
+            # Fade out before moving to the next tuple
+            self.play(FadeOut(rect))
+        
+        self.wait(2)
+
+        self.play(FadeOut(*remove), FadeOut(relation_r_text))
+
+        # # Example: People and Objects (Alice, Bob → Books, TVs)
+        bob = Text("Bob", font_size = 40).move_to(ORIGIN);
+        alice = Text("Alice", font_size = 40).move_to(ORIGIN);
+        bob2 = bob.copy();
+        alice2 = alice.copy();
+
+        alice.shift(LEFT * 3 + 2 * UP)
+        bob.shift(LEFT * 3)
+        book = Text("Book", font_size = 40).shift(RIGHT * 3 + 2 * UP)
+        TV = Text("TV",  font_size = 40).shift(RIGHT * 3)
+        bob2.shift(LEFT * 3 + 2 * DOWN)
+        alice2.shift(RIGHT * 3 + 2 * DOWN)
+
+        self.play(Write(alice), Write(bob), Write(book), Write(TV), Write(alice2), Write(bob2))
+        self.wait(2)
+
+        # Draw arrows for relations (e.g., Alice → Book, Bob → TV)
+        arrow1 = Arrow(start=alice.get_right(), end=book.get_left(), buff=0.2, color=YELLOW)
+        arrow2 = Arrow(start=bob.get_right(), end=TV.get_left(), buff=0.2, color=YELLOW)
+        arrow3 = Arrow(start=bob2.get_right(), end=alice2.get_left(), buff=0.2, color=YELLOW)
+        self.play(Create(arrow1), Create(arrow2), Create(arrow3))
+        self.wait(2)   
+
+        self.play(FadeOut(arrow1, arrow2, arrow3, bob, alice, bob2, alice2, TV, book))
+
+        # Step 1: Creating the relation
+        set_a = MathTex(r"A = \{ \text{Bob}, \text{Alice}, \text{Book}, \text{TV} \}")
+
+        self.play(Write(set_a))
+        self.wait(2)
+        self.play(set_a.animate.shift(2 * UP)) 
+
+        # Define relation R
+        set_r = MathTex(r"R", r"= \{(\text{Alice}, \text{Book}), (\text{Bob}, \text{TV}), (\text{Bob}, \text{Alice}) \}", r" \subseteq A \times A").move_to(ORIGIN)
+
+        # New text "Likes" replacing "R"
+        likes_text = MathTex(r"\text{Likes}").move_to(set_r[0])  # Position it where "R" was
+        likes_text.set_color(YELLOW)  # Make "Likes" yellow
+
+        self.play(Write(set_r))
+        self.wait(1)
+
+        # Transform "R" into "Likes"
+        self.play(ReplacementTransform(set_r[0], likes_text), set_r[1:].animate.next_to(likes_text))
+        self.wait(2)
+
+        self.wait(2)
+        self.play(FadeOut(set_a, likes_text), set_r.animate.shift(2 * UP))
+
+        # Now we can say that... which gives it an unexpected meaning
+        # This was a deviation from the actual content of this video, but nevertheless interesting to consider
+
+        tuples = ["Alice", "Book", "Bob", "TV", "Bob", "Alice"]
+        remove2 = []
+        for i in range(0, 5, 2):
+            # Extract names from tuple "(a,b)"
+            a, b = tuples[i], tuples[i+1]
+            
+            # Create text "a Likes b"
+            relation_text = VGroup(
+                Text(a, font_size=35),
+                Text(" Likes ", font_size=35, color=YELLOW),  # "Likes" in yellow
+                Text(b, font_size=35)
+            ).arrange(RIGHT)
+
+            remove2.append(relation_text)
+            mult = 0.75
+            if i == 0:
+                mult = 1
+            relation_text.shift(2 * UP + (i + 1) * DOWN * mult)
+
+            # Animate highlight and display relation statement
+            self.play(Write(relation_text))
+            self.wait(1)
+
+        # Fade out all elements
+        self.play(FadeOut(*remove2, set_r))
+
+        # Function
+                # Step 1: Create Axes
+        axes = Axes(
+            x_range=[-2, 2, 1],  # From -3 to 3 with tick marks every 1 unit
+            y_range=[-8, 8, 2],  # From -10 to 10 with tick marks every 2 units
+            axis_config={"include_numbers": True}
+        ).scale(0.75).shift(1.25 * DOWN);
+
+        # Labels for Axes
+        x_label = axes.get_x_axis_label("x")
+        y_label = axes.get_y_axis_label("f(x)")
+
+        # Step 2: Define the function f(x) = x^3
+        def cubic_function(x):
+            return np.clip(x**3, -9, 9) 
+
+        graph = axes.plot(cubic_function, color=BLUE)
+
+        # Step 3: Display the function equation
+        equation = MathTex(r"f(x) = x^3").next_to(axes, UP + LEFT, buff = -0.5).set_color(BLUE)
+        # Step 4: Show (x, f(x)) as a Relation
+        relation_text = MathTex(r"f = \{ (x, x^3) \mid x \in \mathbb{R} \} \subseteq \mathbb{R} \times \mathbb{R}")
+
+        # Step 5: Plot some example points
+        sample_x_values = [-1, 0, 1]
+        dots = VGroup()
+        labels = VGroup()
+
+        self.play(Write(relation_text))
+        self.wait(2)
+        self.play(relation_text.animate.shift(2 * UP))
+        self.wait(1)
+
+        for x in sample_x_values:
+            y = cubic_function(x)
+            dot = Dot(axes.c2p(x, y), color=RED)
+            label = MathTex(f"({x}, {y})", font_size = 35).next_to(dot, UR, buff=0.2)
+            dots.add(dot)
+            labels.add(label)
+
+        # Animate the scene
+        self.play(Create(axes), Write(x_label), Write(y_label))
+        self.wait(1)
+
+        self.play(Write(equation))
+        self.play(Create(graph))
+        self.wait(1)
+
+        self.play(FadeIn(dots), Write(labels))
+        self.wait(2)
+
+        self.play(FadeOut(dots, labels, relation_text, equation, graph, axes, x_label, y_label))
+
+        
 
 
-
-
+        
+        

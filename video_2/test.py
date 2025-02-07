@@ -1,9 +1,6 @@
 from manim import *
 from assets.ignas_manim import *
-
-
-class Test(Scene):
+class Relations(Scene):
     def construct(self):
-        return;
-
+        
 
