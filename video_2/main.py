@@ -25,7 +25,15 @@ def introduction(self, topics):
 
     # Hold the final scene for a moment before ending
     self.wait(2)
+class Count(Animation):
+    def __init__(self, number: DecimalNumber, start: float, end: float, **kwargs) -> None:
+        super().__init__(number, **kwargs)
+        self.start = start
+        self.end = end
 
+    def interpolate_mobject(self, alpha: float) -> None:
+        value = round(self.start + (alpha * (self.end - self.start)))  # Ensure integers only
+        self.mobject.set_value(value)
 class Quote(Scene):
     def construct(self):
         # Set background color to #FFB38E
@@ -119,9 +127,11 @@ class TitlePage(Scene):
         topics = [
             "1. Cartesian Product",
             "2. Relations",
-            "3. Integer definition",
-            "4. Integer addition and multiplication",
-            "5. Conclusion"
+            "3. Equivalence Relations",
+            "4. Integer definition",
+            "5. Integer operations",
+            "6. Functions",
+            "7. Conclusion"
         ]
         introduction(self, topics)
 
@@ -1024,6 +1034,7 @@ class ConstructingIntegers(Scene):
             include_numbers=True
         )
 
+        
         self.play(ReplacementTransform(definition, definition3))
 
         # Add the number line to the scene
@@ -1083,11 +1094,268 @@ class ConstructingIntegers(Scene):
         self.wait(2)
         self.play(FadeOut(title))
 
-class Addition(Scene):
+class IntegerOperations(Scene):
     def construct(self):
+        self.camera.background_color = "#DE8F5F"
+        title = Text("Integer Operations").to_edge(UP);
+        self.play(Write(title))
+
+
+        # Step 2: Define Integer Representation
+        integer_repr = MathTex(r"[(a, b)] \text{ represents the integer } a - b")
+        self.play(Write(integer_repr))
+        self.wait(2)
+        self.play(FadeOut(integer_repr))
+        self.wait(2)
+
+        addition = MathTex(r"\left[(a, b)\right] + \left[(c, d)\right] = \left[(a + c, b + d)\right]")
+        subtraction = MathTex(r"\left[(a, b)\right] - \left[(c, d)\right] = \left[(a, b)\right] + \left[(d, c)\right] = \left[(a + d, b + c)\right]")
+        multiplication = MathTex(r"\left[(a, b)\right] \cdot \left[(c, d)\right] = \left[(a \cdot c + b \cdot d, a \cdot d + b \cdot c)\right]")
+
+        # Computation addition
+        self.play(Write(addition))
+        self.wait(2);
+        self.play(addition.animate.shift(2 * UP))
+        subtraction.move_to(addition);
+        multiplication.move_to(addition)
         
+        computation_addition = MathTex(
+            r"\overline{-2} + \overline{-1} &= \left[(0, 2)\right] + \left[(0, 1)\right] \\",
+            r"&= \left[(0 + 0, 2 + 1)\right] \\",
+            r"&= \left[(0, 3)\right] \\",
+            r"&= \overline{-3} \\"
+        ).shift(DOWN)
+
+        computation_addition[0][0:7].set_color(YELLOW);
+        computation_addition[-1].set_color(YELLOW)
+        computation_addition_box = SurroundingRectangle(computation_addition, color=BLACK, buff=0.3, fill_color=GRAY, fill_opacity=0.5)
+        self.play(FadeIn(computation_addition_box))
+
+        for i in range(0, 4):
+            self.play(Write(computation_addition[i]));
+            self.wait(2)
+
+        self.play(FadeOut(computation_addition, computation_addition_box))
+        self.play(ReplacementTransform(addition, subtraction))
+        self.wait(2);
+
+        # Computation subtraction
+    
+        computation_subtraction = MathTex(
+            r"\overline{-2} - \overline{-1} &= \left[(0, 2)\right] - \left[(0, 1)\right] \\",
+            r"&= \left[(0, 2)\right] + \left[(1, 0)\right] \\",
+            r"&= \left[(0 + 1, 2 + 0)\right] \\",
+            r"&= \left[(1, 2)\right] \\",
+            r"&= \overline{-1} \\"
+        ).shift( DOWN)
+
+        computation_subtraction[0][0:7].set_color(YELLOW);
+        computation_subtraction[-1].set_color(YELLOW)
+        computation_subtraction_box = SurroundingRectangle(computation_subtraction, color=BLACK, buff=0.3, fill_color=GRAY, fill_opacity=0.5)
+        self.play(FadeIn(computation_subtraction_box))
+
+        for i in range(0, 5):
+            self.play(Write(computation_subtraction[i]));
+            self.wait(2)
+        self.wait(2)
+
+        self.play(FadeOut(computation_subtraction, computation_subtraction_box))
+        self.play(ReplacementTransform(subtraction, multiplication))
+
+        # Multiplication
+
+        computation_multiplication = MathTex(
+            r"\overline{-2} \cdot \overline{-1} &= \left[(3, 5)\right] \cdot \left[(1, 2)\right] \\",
+            r"&= \left[(3 \cdot 1 + 5 \cdot 2, 3 \cdot 2 + 5 \cdot 1)\right] \\",
+            r"&= \left[(3 + 10, 6 + 5)\right] \\",
+            r"&= \left[(13, 11)\right] \\",
+            r"&= \overline{2} \\"
+        ).shift(DOWN)
+
+        computation_multiplication[0][0:7].set_color(YELLOW);
+        computation_multiplication[-1].set_color(YELLOW)
+        computation_multiplication_box = SurroundingRectangle(computation_multiplication, color=BLACK, buff=0.3, fill_color=GRAY, fill_opacity=0.5)
+        self.play(FadeIn(computation_multiplication_box))
+
+        for i in range(0, 5):
+            self.play(Write(computation_multiplication[i]));
+            self.wait(2)
+        self.wait(2)
+
+        self.play(FadeOut(computation_multiplication, computation_multiplication_box, multiplication))
 
 
+class MultiplicationAdditionFunctions(Scene):
+    def construct(self):
+        self.camera.background_color = "#DE8F5F"
+        title = Text("Functions").to_edge(UP);
+        self.play(Write(title))
+        self.camera.background_color = "#DE8F5F"        
+        # Define the machine (rectangle) with an operation symbol
+        machine_box = Rectangle(width=3, height=2, color=BLACK, fill_color=GREY, fill_opacity=0.3)
+        
+        # Operation symbols for addition and multiplication
+        addition_symbol = MathTex("+").scale(2).set_color(BLACK).move_to(machine_box.get_center())
+        subtraction_symbol = MathTex("-").scale(2).set_color(BLACK).move_to(machine_box.get_center())
+                # Labels for machine
+        machine_label = Text("Function", font_size=30, color=BLACK).move_to(machine_box.get_center())
+        
+        # Grouping machine elements
+        addition_machine = VGroup(machine_box, machine_label).move_to(ORIGIN)
+        multiplication_symbol = MathTex(r"\cdot").scale(2).set_color(BLACK).move_to(machine_box.get_center())
+        multiplication_machine = VGroup(machine_box.copy(), multiplication_symbol).move_to(ORIGIN)
+        subtraction_machine = VGroup(machine_box.copy(), subtraction_symbol).move_to(ORIGIN)
+        
+        # Inputs a and b
+        a_label = MathTex("[(a, b)]", font_size = 50, color = YELLOW).next_to(machine_box, LEFT, buff=1.5).shift(0.5 * UP);
+        b_label = MathTex("[(c, d)]", font_size = 50, color = YELLOW).next_to(machine_box, LEFT, buff=1.5).shift(0.5 * DOWN)
+        
+        # Output c
+        c_label = MathTex("[(e, f)]", font_size = 50, color=YELLOW).next_to(machine_box, RIGHT, buff=1.5)
+        
+        # Example with 2 and 3 input, output 5 for addition
+        example_a = MathTex("[(0, 1)]", color=YELLOW).next_to(machine_box, LEFT, buff=1.5).shift(0.5 * UP)
+        example_b = MathTex("[(1, 0)]", color=YELLOW).next_to(machine_box, LEFT, buff=1.5).shift(0.5 * DOWN)
+        example_c_addition = MathTex("[(0, 0)]", color=YELLOW).next_to(machine_box, RIGHT, buff=1.5)
+        
+        # Example with 2 and 3 input, output 6 for multiplication
+        example_c_multiplication = MathTex("[(0, 1)]", color=YELLOW).next_to(machine_box, RIGHT, buff=1.5)
+        example_c_subtraction = MathTex("[(0, 2)]", color=YELLOW).next_to(machine_box, RIGHT, buff=1.5)
+
+        # Arrows for inputs and output
+        arrow_a = Arrow(start=a_label.get_right(), end=machine_box.get_left(), color=BLACK)
+        arrow_b = Arrow(start=b_label.get_right(), end=machine_box.get_left(), color=BLACK)
+        arrow_c = Arrow(start=machine_box.get_right(), end=c_label.get_left(), color=BLACK)
+        
+        # Group for labels and arrows
+        labels_group = VGroup(a_label, b_label, c_label, arrow_a, arrow_b, arrow_c)
+        
+        # Show the addition function machine
+        self.play(FadeIn(addition_machine), Write(labels_group), lag_ration = 2)
+        self.wait(3)
+
+        self.play(ReplacementTransform(machine_label, addition_symbol));
+        self.wait(3)
+        
+        # Show the example with 2, 3 as input, and output 5 for addition
+        self.play(Transform(a_label, example_a), Transform(b_label, example_b), ReplacementTransform(c_label, example_c_addition))
+        self.wait(3)
+
+        # Transition to subtraction function machine
+        self.play(ReplacementTransform(addition_machine, subtraction_machine), ReplacementTransform(example_c_addition, example_c_subtraction))
+        self.wait(3)
+        
+        # Transition to multiplication function machine
+        self.play(ReplacementTransform(subtraction_machine, multiplication_machine), ReplacementTransform(example_c_subtraction, example_c_multiplication))
+        self.wait(3)
+
+        self.play(FadeOut(subtraction_machine, multiplication_machine, example_c_multiplication))
+        self.wait(2);
+
+class Conclusion(Scene):
+    def construct(self):
+        self.camera.background_color = "#DE8F5F"
+
+        # Title for Conclusion
+        conclusion_title = Text("Conclusion", font_size=48)
+        self.play(Write(conclusion_title))
+        self.wait(1)
+        self.play(conclusion_title.animate.to_edge(UP))
+        self.wait(1)
+
+        # 1. Cartesian Product
+        cartesian_text = Text("1. Cartesian Product", font_size=40)
+        cartesian_example = MathTex(r"A \times B = \{ (a, b) \mid a \in A, b \in B \}", font_size=40).next_to(cartesian_text, DOWN)
+        self.play(Write(cartesian_text))
+        self.play(Write(cartesian_example))
+        self.wait(2)
+        self.play(FadeOut(cartesian_text), FadeOut(cartesian_example))
+
+        # 2. Relations
+        relations_text = Text("2. Relations", font_size=40)
+        relations_example = MathTex(r"R \subseteq A \times A", font_size=40).next_to(relations_text, DOWN)
+        self.play(Write(relations_text))
+        self.play(Write(relations_example))
+        self.wait(2)
+        self.play(FadeOut(relations_text), FadeOut(relations_example))
+
+        # 3. Equivalence Relations
+        equivalence_text = Text("3. Equivalence Relations", font_size=40)
+        equivalence_example = MathTex(r"a \sim b \Leftrightarrow (a, b) \in R", font_size=40).next_to(equivalence_text, DOWN)
+        self.play(Write(equivalence_text))
+        self.play(Write(equivalence_example))
+        self.wait(2)
+        self.play(FadeOut(equivalence_text), FadeOut(equivalence_example))
+
+        # 4. Constructing Integers
+        integer_text = Text("4. Constructing Integers", font_size=40)
+        integer_example = MathTex(r"\mathbb{Z} = \{ [(a, b)] \mid a, b \in \mathbb{N} \}", font_size=40).next_to(integer_text, DOWN)
+        self.play(Write(integer_text))
+        self.play(Write(integer_example))
+        self.wait(2)
+        self.play(FadeOut(integer_text), FadeOut(integer_example))
+
+        # 5. Integer Operations
+        operations_text = Text("5. Integer Operations", font_size=40)
+        operations_example = MathTex(r"\left[(a, b)\right] + \left[(c, d)\right] = \left[(a + c, b + d)\right]", font_size=40).next_to(operations_text, DOWN)
+        self.play(Write(operations_text))
+        self.play(Write(operations_example))
+        self.wait(2)
+        self.play(FadeOut(operations_text), FadeOut(operations_example))
+
+        # 6. Functions
+        functions_text = Text("6. Functions", font_size=40)
+        functions_example = Text("Mapping inputs to outputs", font_size=30).next_to(functions_text, DOWN)
+        self.play(Write(functions_text))
+        self.play(Write(functions_example))
+        self.wait(2)
+        self.play(FadeOut(functions_text), FadeOut(functions_example))
+
+        # 7. Properties of Operations
+        properties = VGroup(
+            MathTex(r"a + b", "=", r"b + a"),  # Commutativity of Addition
+            MathTex(r"(a + b) + c", "=", r"a + (b + c)"),  # Associativity of Addition
+            MathTex(r"a \cdot b", "=", r"b \cdot a"),  # Commutativity of Multiplication
+            MathTex(r"(a \cdot b) \cdot c", "=", r"a \cdot (b \cdot c)"),  # Associativity of Multiplication
+            MathTex(r"a \cdot (b + c)", "=", r"a \cdot b + a \cdot c")  # Distributivity
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.25).move_to(ORIGIN)
+
+        self.play(Write(properties), run_time=5)
+        self.wait(1)
+
+        # Prompt for next video
+        peek(self, "Why?", 50, False)
+
+        self.play(FadeOut(properties))
+        self.wait(1)
+        self.play(conclusion_title.animate.move_to(ORIGIN))
+        self.wait(1)
+        self.play(FadeOut(conclusion_title))
+
+class EndScene(Scene):
+    def construct(self):
+        # Create an orange rectangle that covers the entire screen
+        background_rectangle = FullScreenRectangle(fill_color="#DE8F5F", fill_opacity=1)
+        background_rectangle.set_stroke(color ="#DE8F5F")
+        self.add(background_rectangle)
+        
+        # Wait for a moment to let the audience see the full orange screen
+        self.wait(1)
+
+        # Animate the rectangle shrinking to the center and fading out
+        self.play(
+            background_rectangle.animate.scale(0).set_opacity(0),
+            rate_func=smooth,
+            run_time=2)
+
+        # Pause briefly on the final black screen
+        self.wait(1)
+class ThumbNail(Scene):
+    def construct(self):
+        self.camera.background_color = "#DE8F5F"
+
+        title = MathTex(r"0 = \left[(5, 5)\right]", font_size=200)
+        self.add(title);
 
 
         
