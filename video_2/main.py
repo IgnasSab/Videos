@@ -751,6 +751,23 @@ class EquivalenceRelations(Scene):
         self.play(Write(even_class), Write(odd_class))
         self.wait(2)
 
+        addition_rule = MathTex(
+            r"\begin{aligned}"
+            r"\left[2\right] + \left[2\right] &= \left[4\right] = \left[2\right] \\"  
+            r"\left[1\right] + \left[1\right] &= \left[2\right] \\"  
+            r"\left[2\right] + \left[1\right] &= \left[3\right] = \left[1\right]"
+            r"\end{aligned}"
+        ).shift(RIGHT * 3 + UP * 1)
+
+
+        multiplication_rule = MathTex(
+            r"\begin{aligned}"
+            r"\left[2\right] \times \left[2\right] &= \left[4\right] = \left[2\right] \\"  # Even * Even = Even
+            r"\left[1\right] \times \left[1\right] &= \left[1\right] \\"  # Odd * Odd = Odd
+            r"\left[2\right] \times \left[1\right] &= \left[2\right]"
+            r"\end{aligned}"
+        ).next_to(addition_rule, DOWN, buff=1)
+
         # Step 6: Show Addition Rules
         addition_rule_2 = MathTex(
             r"\begin{aligned}"
@@ -769,22 +786,6 @@ class EquivalenceRelations(Scene):
             r"\end{aligned}"
         ).next_to(addition_rule_2, DOWN, buff=1)
 
-        addition_rule = MathTex(
-            r"\begin{aligned}"
-            r"\left[2\right] + \left[2\right] &= \left[2\right] \\"  
-            r"\left[1\right] + \left[1\right] &= \left[2\right] \\"  
-            r"\left[2\right] + \left[1\right] &= \left[1\right]"
-            r"\end{aligned}"
-        ).shift(RIGHT * 3 + UP * 1)
-
-
-        multiplication_rule = MathTex(
-            r"\begin{aligned}"
-            r"\left[2\right] \times \left[2\right] &= \left[2\right] \\"  # Even * Even = Even
-            r"\left[1\right] \times \left[1\right] &= \left[1\right] \\"  # Odd * Odd = Odd
-            r"\left[2\right] \times \left[1\right] &= \left[2\right]"
-            r"\end{aligned}"
-        ).next_to(addition_rule, DOWN, buff=1)
 
 
         self.play(Write(addition_rule))
@@ -802,7 +803,291 @@ class EquivalenceRelations(Scene):
         self.play(FadeOut(title, even_class, odd_class, addition_rule, multiplication_rule))
         self.wait(2)
 
+class ConstructingIntegers(Scene):
+    def construct(self):
+        self.camera.background_color = "#DE8F5F"
+        title = Text("Constructing Integers").to_edge(UP);
+        self.play(Write(title))
+
+        N = MathTex(r"\mathbb{N} = \{0, 1, 2, \dots \}")
+        self.play(Write(N))
+        self.wait(2)
+        self.play(N.animate.shift(2* UP))
+
+        set_a = MathTex("(", r"\mathbb{N} \times \mathbb{N}", r") \times (", r"\mathbb{N} \times \mathbb{N}", ")")
+
+        tup = [1, 3]
+        tup2 = [0, 2, 4]
+
+        self.play(Write(set_a[1]), Write(set_a[3]))
+        self.wait(2)
+        self.play(Write(set_a[0]), Write(set_a[2]), Write(set_a[4]))
+        self.wait(2)
+
+        self.play(FadeOut(N), set_a.animate.shift(2 * UP))
+
+        set_ac = set_a.copy()
+
+        tuples_a = MathTex(r"(", "(a, b)", r",", r"(c, d)", r")")
+        self.play(ReplacementTransform(set_ac[1], tuples_a[1]))
+        self.wait(2);
+        self.play(ReplacementTransform(set_ac[3], tuples_a[3]))
+        self.wait(2)
+        self.play(ReplacementTransform(set_ac[0], tuples_a[0]), ReplacementTransform(set_ac[2], tuples_a[2]), ReplacementTransform(set_ac[4], tuples_a[4]))
+        self.wait(2)
         
+        subset = MathTex(r"\in").next_to(tuples_a)
+        self.play(Write(subset), set_a.animate.next_to(subset));
+        group = VGroup(subset, set_a, tuples_a)
+        self.play(group.animate.move_to(ORIGIN));
+        self.wait(2)
+        self.play(group.animate.shift(UP))
+        self.wait(2);
+        set_b = MathTex(r"A = \mathbb{N} \times \mathbb{N}").shift(2 * UP);
+        self.play(Write(set_b));
+        group.remove(subset, tuples_a)
+        relation = MathTex(r"R \subseteq").next_to(set_a, LEFT)
+        self.play(FadeOut(subset, tuples_a), FadeIn(relation))
+        group.add(relation)
+        self.wait(2);
+
+        self.play(FadeOut(group, set_b))
+
+                # Defining the relation
+        relation = MathTex(r"R = \{ ((a, b), (c, d)) \mid a + d = b + c \}")
+
+        # Color 'a' and 'b' Yellow
+        relation[0][5].set_color(YELLOW)
+        relation[0][7].set_color(YELLOW)
+        relation[0][11].set_color(BLUE)
+        relation[0][13].set_color(BLUE)
+        relation[0][17].set_color(YELLOW)
+        relation[0][19].set_color(BLUE)
+        relation[0][21].set_color(YELLOW)
+        relation[0][23].set_color(BLUE)
+        self.play(Write(relation))
+        self.wait(2)
+        self.play(relation.animate.shift(2 * UP))
+
+        # Firstly we prove that it is an equivalence relation, so it satisfies all the required properties
+            
+        proof_title = MathTex(r"1. \text{ Reflexivity:}").to_edge(LEFT).shift(UP)
+        self.play(Write(proof_title))
+        # Reflexivity: (a, b) R (a, b)
+        reflexivity = MathTex(r"\text{For all pairs we have } (a, b) \; R \; (a, b), \text{since }  a + b = b + a")
+        self.play(Write(reflexivity))
+        self.wait(1)
+        self.wait(1)
+        self.play(FadeOut(reflexivity))
+
+        ### Symmetry: (a, b) R (c, d) → (c, d) R (a, b)
+        proof_title_2 = MathTex(r"2. \text{ Symmetry:}").move_to(proof_title)
+        symmetry = MathTex(r"\text{If } (a, b) \; R \; (c, d) \text{ then } (c, d) \; R \; (a, b)")
+        step1 = MathTex(r"a + d = b + c").next_to(symmetry, DOWN);
+        step2 = MathTex(r"c + b = d + a").next_to(step1, DOWN)
+        step3 = MathTex(r"(c, d) \; R \; (a, b)").next_to(step2, DOWN)
+        self.play(ReplacementTransform(proof_title, proof_title_2))
+        self.play(Write(symmetry))
+        self.wait(1);
+        self.play(Write(step1))
+        self.wait(1);
+        self.play(Write(step2))
+        self.wait(1)
+        self.play(Write(step3))
+        self.wait(1)
+        self.play(FadeOut(symmetry, step1, step2, step3))
+
+        proof_title_3 = MathTex(r"3. \text{ Transitivity:}").move_to(proof_title_2)
+        # Transitivity: If (a, b) R (c, d) and (c, d) R (e, f), then (a, b) R (e, f)
+        transitivity = MathTex(
+            r"\text{If } (a, b) \; R \; (c, d) \text{ and } (c, d) \; R \; (e, f) \text{ then } (a, b) \; R \; (e, f)"
+        )
+        self.play(ReplacementTransform(proof_title_2, proof_title_3))
+        self.play(Write(transitivity))
+        self.wait(1)
+
+        step1 = MathTex(r"a + d = b + c, c + f = d + e").next_to(transitivity, DOWN)
+        step2 = MathTex(r"a + d + c + f = b + c + d + e").next_to(step1, DOWN)
+        step3 = MathTex(r"a + f = b + e").next_to(step2, DOWN)
+        step4 = MathTex(r"(a, b) \; R \; (e, f)").next_to(step3, DOWN)
+
+        self.play(Write(step1))
+        self.wait(1)
+        self.play(Write(step2))
+        self.wait(1)
+        self.play(Write(step3))
+        self.wait(1)
+        self.play(Write(step4))
+        self.wait(1)
+
+        self.wait(1)
+        self.play(FadeOut(transitivity, step1, step2, step3, step4, proof_title_3))
+
+        # Intuition (before we look at what equivalence classes can offer to us, lets get some intuition on what does this relation tell us)
+        example = MathTex(r"(a, b)", r" \sim ", r"(c, d)", r"\; \Leftrightarrow \;" , r"a + c = b + d")
+        self.play(Write(example))
+        transformed_example = MathTex(r"a - b", "=", "d - c").move_to(example[-1])
+        self.play(ReplacementTransform(example[-1], transformed_example))
+        self.play(Indicate(example[0]), Indicate(transformed_example[0]))
+        self.wait(2)
+        self.play(Indicate(example[2], color = BLUE), Indicate(transformed_example[2], color = BLUE))
+        self.wait(2)
+
+        self.play(FadeOut(example, transformed_example))
+        self.wait(1)
+
+        # Create a number line from -5 to 5
+        number_line = NumberLine(
+            x_range=[-5, 5, 1],  # From -5 to 5 with step 1
+            length=10,
+            include_numbers=True
+        )
+
+        # Add the number line to the scene
+        self.play(Write(number_line))
+        self.wait(1)
+
+        # Define positions and corresponding tuples
+        points = [0, 3, -2]  # Example positions on the number line
+        tuples = [(0, 0), (2, 2), (3, 0), (4, 1), (0, 2), (1, 3)]  # Corresponding (a, b)
+
+        # Create a dot to move along the line
+        dot = Dot().move_to(number_line.n2p(points[0]))
+        dot.set_color(RED)
+        tuple_text = MathTex(f"({tuples[0][0]}, {tuples[0][1]})", font_size = 35).next_to(dot, UP, buff = 0.1)
+        tuple_text2 = MathTex(f"({tuples[1][0]}, {tuples[1][1]})", font_size = 35).move_to(tuple_text)
+        self.play(FadeIn(dot), Write(tuple_text))
+        self.wait(2);
+        self.play(Transform(tuple_text, tuple_text2))
+        self.wait(2)
+        # Move dot from one point to another, updating (a, b)
+        for i in range(1, len(points)):
+            new_position = number_line.n2p(points[i])
+            new_tuple = MathTex(f"({tuples[i * 2][0]}, {tuples[i * 2][1]})", font_size = 35).next_to(new_position, UP)
+            self.play(dot.animate.move_to(new_position), ReplacementTransform(tuple_text, new_tuple))
+            self.wait(2)
+            tuple_text = MathTex(f"({tuples[i * 2 + 1][0]}, {tuples[i * 2 + 1][1]})", font_size = 35).move_to(new_tuple)
+            self.play(ReplacementTransform(new_tuple, tuple_text))
+            self.wait(2)
+
+        self.wait(2)
+
+        self.play(FadeOut(number_line, dot, tuple_text, relation))
+        
+        ##########################################################################################################
+        # It would be nice to group, and this is where the equivalence classes come 
+
+        # Definition of equivalence class
+        definition = MathTex(r"[(a, b)] = \{(c, d) \in \mathbb{N} \times \mathbb{N} \mid \;",  r"(a, b) \sim (c, d)", r"\}")
+        definition2 = MathTex(r"a + d = b + c").move_to(definition[-2]);
+
+
+        self.play(Write(definition))
+        self.wait(2)
+        self.play(ReplacementTransform(definition[-2], definition2))
+        self.wait(2)
+        self.play(definition.animate.shift(2 * UP))
+        self.wait(2)
+        definition3 = MathTex(r"\mathbb{Z} = \{ [(a, b)] \mid a, b \in \mathbb{N} \}").move_to(definition)
+
+        ### Example 1: [(3,1)]
+        example1 = MathTex(r"[(3,1)] = \{ (2,0), (3,1), (4,2), (5,3), \dots \}")
+        self.play(Write(example1))
+        self.wait(1)
+
+        # Show that [(3,1)] represents 2
+        result1 = MathTex(r"[(3,1)] = 3 - 1 = \overline{2}").next_to(example1, DOWN)
+        
+        self.play(Write(result1))
+        group1 = VGroup(result1, example1)
+        self.wait(2)
+        self.play(group1.animate.shift(UP))
+    
+
+        # Example 2: [(1,3)]
+        example2 = MathTex(r"[(1,3)] = \{ (0,2), (1,3), (2,4), (3,5), \dots \}")
+        self.wait(1)
+        # Show that [(1,3)] represents -2
+        result2 = MathTex(r"[(1,3)] = 1 - 3 = \overline{-2}").next_to(example2, DOWN)
+
+        group2 = VGroup(result2, example2).shift(DOWN)
+        self.play(Write(group2))
+        self.wait(2)
+
+        self.play(FadeOut(group1, group2))
+
+
+        # Create a number line from -5 to 5
+        number_line = NumberLine(
+            x_range=[-5, 5, 1],  # From -5 to 5 with step 1
+            length=12,
+            include_numbers=True
+        )
+
+        self.play(ReplacementTransform(definition, definition3))
+
+        # Add the number line to the scene
+        self.play(Write(number_line))
+        self.wait(1)
+
+        # Define equivalence class representations for each integer
+        equivalence_classes = {
+            -5: [r"[(0,5)]", r"[(1,6)]", r"[(2,7)]"],
+            -4: [r"[(0,4)]", r"[(1,5)]", r"[(2,6)]"],
+            -3: [r"[(0,3)]", r"[(1,4)]", r"[(2,5)]"],
+            -2: [r"[(0,2)]", r"[(1,3)]", r"[(2,4)]"],
+            -1: [r"[(0,1)]", r"[(1,2)]", r"[(2,3)]"],
+             0: [r"[(0,0)]", r"[(1,1)]", r"[(2,2)]"],
+             1: [r"[(0,1)]", r"[(1,2)]", r"[(2,3)]"],
+             2: [r"[(0,2)]", r"[(1,3)]", r"[(2,4)]"],
+             3: [r"[(0,3)]", r"[(1,4)]", r"[(2,5)]"],
+             4: [r"[(0,4)]", r"[(1,5)]", r"[(2,6)]"],
+             5: [r"[(0,5)]", r"[(1,6)]", r"[(2,7)]"]
+        }
+
+        # Add primary labels (first equivalence class) above the number line
+        labels = []
+        for number, eq_classes in equivalence_classes.items():
+            label = MathTex(eq_classes[0], font_size = 32).next_to(number_line.n2p(number), UP)
+            if (number % 2 == 0):
+                label.set_color(YELLOW)
+            else:
+                label.set_color(BLUE)
+            labels.append(label)
+
+        self.play(*[Write(label) for label in labels])
+        self.wait(2)
+
+        group_ = Group(*labels, number_line)
+        self.play(group_.animate.shift(DOWN * 1.5))
+
+        # Add second equivalence class representations with delay
+        extra_labels1 = []
+        for number, eq_classes in equivalence_classes.items():
+            label = MathTex(eq_classes[1], font_size = 32).next_to(number_line.n2p(number), UP * 4)
+            extra_labels1.append(label)
+
+        self.play(*[Write(label) for label in extra_labels1], run_time=2)
+        self.wait(2)
+
+        # Add third equivalence class representations with delay
+        extra_labels2 = []
+        for number, eq_classes in equivalence_classes.items():
+            label = MathTex(eq_classes[2], font_size = 32).next_to(number_line.n2p(number), UP * 7)
+            extra_labels2.append(label)
+
+        self.play(*[Write(label) for label in extra_labels2], run_time=2)
+        self.wait(2)
+
+        self.play(FadeOut(number_line, *labels, *extra_labels1, *extra_labels2, group_, definition3))
+        self.wait(2)
+        self.play(FadeOut(title))
+
+class Addition(Scene):
+    def construct(self):
+        
+
+
 
 
         

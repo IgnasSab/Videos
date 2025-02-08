@@ -11,7 +11,28 @@ def hgh(pos, tuples, cl):
 class Test(Scene):
     def construct(self):
         self.camera.background_color = "#DE8F5F"
-        denoted_as = Tex(r"If $ (a, b) \in R $ and $R$ is equivalence relation, then $a \sim b$")
-        self.add(denoted_as);
+        title = Text("Creating Integers").to_edge(UP);
+        self.play(Write(title))
+
+
+
+    
+
+
+
+
+
+
+
+
+
+        
+
+
+        
+        
+        
+
+
 
 
