@@ -1,2 +1,0 @@
-- Add peeks
-- Go through the number line and increment and decrement a single equivalence class in the center of the screen

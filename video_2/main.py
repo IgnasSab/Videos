@@ -70,10 +70,9 @@ class Introduction(Scene):
         # Add elements to the scene
         self.play(Create(frame), FadeIn(prev_scene_1))
         peek(self, img_path = "images/youtube.png");
-        self.wait(2);
         self.play(FadeOut(prev_scene_1));
         self.play(FadeIn(prev_scene_2));
-        self.wait(2);
+        self.wait(1);
         self.play(FadeOut(prev_scene_2), FadeOut(frame));
 
         # Create a number line from -5 to 5
@@ -91,7 +90,7 @@ class Introduction(Scene):
 
         # Add elements to the scene
         self.play(Create(number_line), FadeIn(dot, number_label))
-        self.wait(1)
+        self.wait(0.5)
 
         # Function to move the dot and update label
         def move_dot(target_x):
@@ -107,7 +106,6 @@ class Introduction(Scene):
         move_dot(-2)  # Move to -2
         move_dot(0)   # Move back to 0
 
-        self.wait(2)
         self.play(FadeOut(dot, number_label, number_line));
         # Create a MathTex object for the integers with dots
         integers_text = MathTex(r"\mathbb{Z} = \{ \dots, -3, -2, -1, 0, 1, 2, 3 \dots \}").move_to(ORIGIN);
@@ -141,7 +139,7 @@ class CartesianProduct(Scene):
         # Step 1: Introduce Set A (Yellow) and Set B (Blue)
         set_a = MathTex(r"A = \{1, 2, 3\}").shift(LEFT * 2)
         set_b = MathTex(r"B = \{3, 4\}").shift(RIGHT * 2)
-
+        self.wait(9)
         self.play(Write(set_a))
         self.wait(1)
         self.play(Write(set_b))
@@ -153,7 +151,7 @@ class CartesianProduct(Scene):
 
         # Move sets up to make space for the Cartesian product
         self.play(set_a.animate.shift(UP * 2), set_b.animate.shift(UP * 2))
-        self.wait(1)
+        self.wait(0.5)
 
         # Extract "A" and "B" letters for animation
         letter_A = set_a[0][0] # "A"
@@ -187,13 +185,13 @@ class CartesianProduct(Scene):
 
         # Transform "A" and "B" to the Cartesian product equation
         self.play(ReplacementTransform(letter_A.copy(), cartesian_1[0]), ReplacementTransform(letter_B.copy(), cartesian_1[2]))
-        self.wait(2)
+        self.wait(1)
 
         # Write the rest of the Cartesian Product
         self.play(Write(cartesian_1[1:2]))
         self.wait(2)
         self.play(Write(cartesian_2))
-        self.wait(2)
+        self.wait(5)
         
         self.play(FadeOut(cartesian), FadeOut(set_a), FadeOut(set_b))
 
@@ -250,7 +248,7 @@ class CartesianProduct(Scene):
             rect = SurroundingRectangle(cartesian_c[0][6 + i * 6 - 1:11 + i * 6 - 1], color=RED)
             self.play(Create(rect))
             self.play(FadeIn(dot), FadeIn(label))
-            self.wait(1)
+            self.wait(0.5)
             self.play(FadeOut(rect))
         self.wait(2)
 
@@ -310,23 +308,24 @@ class Relations(Scene):
     def construct(self):
         setup(self, "Relations")
 
+        self.wait(4)
         # Step 2: Define set A
         set_a = MathTex(r"A = \{1, 2, 3\}")
         A = set_a[0][0].copy();
         self.play(Write(A.move_to(ORIGIN)))
-        self.wait(2)
 
         self.play(A.animate.shift(2 * UP))
 
         relation = MathTex(r"R \subseteq A \times A").move_to(ORIGIN);
-
+        self.wait(2)
         self.play(Write(relation[0][0]));
         self.wait(2);
         self.play(Write(relation[0][1:]));
-        self.wait(2)
+        self.wait(10)
         
         # Lets see an example...
         set_a.shift(2 * UP)
+
         self.play(Transform(A, set_a));
 
         # Step 3: Show Cartesian Product A × A
@@ -336,6 +335,7 @@ class Relations(Scene):
             r"(3,1), (3,2), (3,3) \}"
         ).shift(UP)
 
+        self.wait(3)
         self.play(Write(cart_product_text))
         self.wait(2)
 
@@ -343,7 +343,7 @@ class Relations(Scene):
         relationc = relation.copy()
         relation_r_text = MathTex(r"R = \{ (1,1), (1,2), (2,1), (2,2), (3,3) \}").move_to(ORIGIN);
         self.play(Transform(relation, relation_r_text))
-        self.wait(2)
+        self.wait(5)
         self.play(Write(relationc[0][1:].next_to(relation_r_text)))
 
         self.wait(2);
@@ -353,7 +353,7 @@ class Relations(Scene):
         # Step 4: Transition to a 2D Grid for Cartesian Product
         grid = NumberPlane(x_range=[0, 4, 1], y_range=[0, 4, 1], axis_config={"include_numbers": True, "font_size":35}).scale(0.8).shift(DOWN)
         self.play(Create(grid))
-        self.wait(1)
+        self.wait(4)
 
         # Step 6: Show all pairs in A × A with dots
         pairs = [
@@ -398,9 +398,9 @@ class Relations(Scene):
 
             # Animate highlight and display relation statement
             self.play(Create(rect))
-            self.wait(1)
+            self.wait(0.5)
             self.play(Write(relation_text))
-            self.wait(1)
+            self.wait(0.5)
 
             # Fade out before moving to the next tuple
             self.play(FadeOut(rect))
@@ -430,7 +430,7 @@ class Relations(Scene):
         arrow2 = Arrow(start=bob.get_right(), end=TV.get_left(), buff=0.2, color=YELLOW)
         arrow3 = Arrow(start=bob2.get_right(), end=alice2.get_left(), buff=0.2, color=YELLOW)
         self.play(Create(arrow1), Create(arrow2), Create(arrow3))
-        self.wait(2)   
+        self.wait(6)   
 
         self.play(FadeOut(arrow1, arrow2, arrow3, bob, alice, bob2, alice2, TV, book))
 
@@ -546,7 +546,7 @@ class EquivalenceRelations(Scene):
         # Step 1: Title
         title = Text("Equivalence Relations").to_edge(UP)
         self.play(Write(title))
-        self.wait(1)
+        self.wait(4)
 
         # Step 2: Define Reflexivity, Symmetry, Transitivity
         reflexive_text = Tex(r"1. Reflexive: $(a, a) \in R$ for all $a \in A$")
@@ -558,14 +558,14 @@ class EquivalenceRelations(Scene):
         properties = VGroup(reflexive_text, symmetric_text, transitive_text, denoted_as).arrange(DOWN, buff=0.5, aligned_edge = LEFT).move_to(ORIGIN)
 
         self.play(Write(properties, time_frame = 2))
-        self.wait(2)
+        self.wait(33)
 
         # Lets see an example of each of them
         self.play(FadeOut(symmetric_text, transitive_text, denoted_as), reflexive_text.animate.next_to(title, DOWN, buff = 0.5));
         set_a = MathTex(r"A = \{1, 2, 3\}")
 
         self.play(Write(set_a))
-        self.wait(2)
+        self.wait(4)
 
         symmetric_text.next_to(title, DOWN, buff = 0.5)
         transitive_text.next_to(title, DOWN, buff = 0.5)
@@ -586,24 +586,24 @@ class EquivalenceRelations(Scene):
         recs = hgh([0, 1, 3], r_1, YELLOW)
         for rec in recs:
             self.play(FadeIn(rec));
-            self.wait(1);
+            self.wait(0.5);
         for rec in recs:
             self.play(FadeOut(rec))
+
+        self.play(ReplacementTransform(r_1, r_2), ReplacementTransform(reflexive_text, symmetric_text))
+        self.wait(2)
 
         recs = hgh([2], r_1, RED)
         for rec in recs:
             self.play(FadeIn(rec));
-            self.wait(1);
+            self.wait(2.5);
         for rec in recs:
             self.play(FadeOut(rec))    
 
-        self.play(ReplacementTransform(r_1, r_2), ReplacementTransform(reflexive_text, symmetric_text))
-        self.wait(2)
-        
         recs = hgh([2, 3], r_2, YELLOW)
         for rec in recs:
             self.play(FadeIn(rec));
-            self.wait(1);
+            self.wait(0.5);
         for rec in recs:
             self.play(FadeOut(rec))
 
@@ -612,18 +612,18 @@ class EquivalenceRelations(Scene):
         recs = hgh([0, 1], r_3, RED)
         for rec in recs:
             self.play(FadeIn(rec));
-            self.wait(1);
+            self.wait(0.5);
         for rec in recs:
             self.play(FadeOut(rec))
 
         self.play(ReplacementTransform(r_3, r_4))
         recs = hgh([0, 1, 2], r_3, YELLOW)
         for rec in recs:
-            self.play(FadeIn(rec));
-            self.wait(1);
+            self.play(FadeIn(rec))
+            self.wait(0.5);
         for rec in recs:
             self.play(FadeOut(rec))
-        self.wait(2)
+        self.wait(1)
         
         self.play(FadeOut(transitive_text, r_4, background_rec, surround_rec, set_a))
         
@@ -632,9 +632,9 @@ class EquivalenceRelations(Scene):
         relation_r = MathTex(r"R = \{ (a, b) \mid a + b \text{ is even} \}").shift(UP)
 
         self.play(Write(set_a));
-        self.wait(1)
-        self.play(Write(relation_r))
         self.wait(2)
+        self.play(Write(relation_r))
+        self.wait(4)
 
         self.play(FadeOut(set_a), relation_r.animate.shift(UP))
 
@@ -663,31 +663,32 @@ class EquivalenceRelations(Scene):
         reflexive_pairs = [(1,1), (2,2), (3,3), (4,4), (5,5)]
         reflexive_dots = VGroup(*[Dot(axes.c2p(a, a), color=GREEN) for a, _ in reflexive_pairs])
         self.play(FadeIn(reflexive_dots))
-        self.wait(2)
+        self.wait(1)
         self.play(FadeOut(reflexive_dots))
-        self.wait(2)
+        self.wait(1)
 
         # Step 7: Highlight Symmetry
         symmetric_pairs = [(1,3), (3,1), (1,5), (5,1), (2,4), (4,2), (3,5), (5,3)]
         symmetric_dots = VGroup(*[Dot(axes.c2p(a, b), color=GREEN) for a, b in symmetric_pairs])
         for i in range(0, 8, 2):
             self.play(FadeIn(symmetric_dots[i], symmetric_dots[i+1]))
-            self.wait(2);
+            self.wait(0.25);
             self.play(FadeOut(symmetric_dots[i], symmetric_dots[i+1]))
 
-        self.wait(2)
+        self.wait(1)
 
         # Step 8: Highlighst Transitivity
         transitive_triplets = [(1,3), (3,5), (1,5), (3, 1), (5, 3), (5, 1)]
         transitive_dots = VGroup(*[Dot(axes.c2p(a, b), color=GREEN) for a, b in transitive_triplets])
         for i in range(0, 6, 3):
             self.play(FadeIn(transitive_dots[i], transitive_dots[i+1], transitive_dots[i+2]))
-            self.wait(2);
+            self.wait(0.5);
             self.play(FadeOut(transitive_dots[i], transitive_dots[i+1], transitive_dots[i+2]))
-        self.wait(2)
+        self.wait(1)
 
         self.play(FadeOut(axes, dots, labels, relation_r))
 
+        self.wait(2)
         # Why are equivalence relations useful
                 # Step 9: Introduce Equivalence Classes Definition
         eq_class_def = Tex(
@@ -696,7 +697,7 @@ class EquivalenceRelations(Scene):
         ).move_to(ORIGIN)
 
         self.play(Write(eq_class_def))
-        self.wait(3)
+        self.wait(6)
 
         self.play(FadeOut(eq_class_def[0]), eq_class_def[1].animate.next_to(title, DOWN, buff = 0.5))
 
@@ -706,8 +707,7 @@ class EquivalenceRelations(Scene):
 
         self.play(Write(class_1))
         self.play(Write(class_2))
-        self.wait(2)
-
+        self.wait(6)
 
 
         # Step 11: Group the Elements in A According to Equivalence Classes
@@ -718,7 +718,7 @@ class EquivalenceRelations(Scene):
         even_dots = VGroup(*[Dot(axes.c2p(a, b), color=YELLOW) for a, b in even_numbers])
 
         self.play(FadeIn(axes, labels, odd_dots, even_dots))
-        self.wait(2)
+        self.wait(6)
 
         
         # Step 11: Show that choosing 3 as the representative is valid
@@ -741,15 +741,15 @@ class EquivalenceRelations(Scene):
 
         # Addition of classes:
 
-                # Step 2: Define Addition
+        # Step 2: Define Addition
         addition_def = MathTex(r"[a] + [b] = [a + b]").shift(UP)
         self.play(Write(addition_def))
-        self.wait(1)
+        self.wait(2)
 
         # Step 3: Define Multiplication
         multiplication_def = MathTex(r"[a] \cdot [b] = [a \cdot b]").shift(DOWN)
         self.play(Write(multiplication_def))
-        self.wait(2)
+        self.wait(4)
 
         # Step 4: Transition to Example (Parity Equivalence Classes)
         self.play(FadeOut(addition_def, multiplication_def))
@@ -759,7 +759,7 @@ class EquivalenceRelations(Scene):
         even_class = MathTex(r"[2] = \{\text{even numbers}\}").set_color(YELLOW).shift(LEFT * 3 + DOWN)
 
         self.play(Write(even_class), Write(odd_class))
-        self.wait(2)
+        self.wait(10)
 
         addition_rule = MathTex(
             r"\begin{aligned}"
@@ -811,7 +811,7 @@ class EquivalenceRelations(Scene):
 
         # Step 8: Fade Out Everything
         self.play(FadeOut(title, even_class, odd_class, addition_rule, multiplication_rule))
-        self.wait(2)
+        self.wait(3)
 
 class ConstructingIntegers(Scene):
     def construct(self):
@@ -821,7 +821,7 @@ class ConstructingIntegers(Scene):
 
         N = MathTex(r"\mathbb{N} = \{0, 1, 2, \dots \}")
         self.play(Write(N))
-        self.wait(2)
+        self.wait(8)
         self.play(N.animate.shift(2* UP))
 
         set_a = MathTex("(", r"\mathbb{N} \times \mathbb{N}", r") \times (", r"\mathbb{N} \times \mathbb{N}", ")")
@@ -830,9 +830,9 @@ class ConstructingIntegers(Scene):
         tup2 = [0, 2, 4]
 
         self.play(Write(set_a[1]), Write(set_a[3]))
-        self.wait(2)
+        self.wait(1)
         self.play(Write(set_a[0]), Write(set_a[2]), Write(set_a[4]))
-        self.wait(2)
+        self.wait(1)
 
         self.play(FadeOut(N), set_a.animate.shift(2 * UP))
 
@@ -840,31 +840,31 @@ class ConstructingIntegers(Scene):
 
         tuples_a = MathTex(r"(", "(a, b)", r",", r"(c, d)", r")")
         self.play(ReplacementTransform(set_ac[1], tuples_a[1]))
-        self.wait(2);
+        self.wait(1);
         self.play(ReplacementTransform(set_ac[3], tuples_a[3]))
-        self.wait(2)
+        self.wait(0.5)
         self.play(ReplacementTransform(set_ac[0], tuples_a[0]), ReplacementTransform(set_ac[2], tuples_a[2]), ReplacementTransform(set_ac[4], tuples_a[4]))
-        self.wait(2)
+        self.wait(0.5)
         
         subset = MathTex(r"\in").next_to(tuples_a)
         self.play(Write(subset), set_a.animate.next_to(subset));
         group = VGroup(subset, set_a, tuples_a)
         self.play(group.animate.move_to(ORIGIN));
-        self.wait(2)
+        self.wait(1)
         self.play(group.animate.shift(UP))
-        self.wait(2);
+        self.wait(1);
         set_b = MathTex(r"A = \mathbb{N} \times \mathbb{N}").shift(2 * UP);
         self.play(Write(set_b));
         group.remove(subset, tuples_a)
         relation = MathTex(r"R \subseteq").next_to(set_a, LEFT)
         self.play(FadeOut(subset, tuples_a), FadeIn(relation))
         group.add(relation)
-        self.wait(2);
+        self.wait(1);
 
         self.play(FadeOut(group, set_b))
 
                 # Defining the relation
-        relation = MathTex(r"R = \{ ((a, b), (c, d)) \mid a + d = b + c \}")
+        relation = MathTex(r"R = \{ ((a, b), (c, d)) \in A \mid a + d = b + c \}")
 
         # Color 'a' and 'b' Yellow
         relation[0][5].set_color(YELLOW)
@@ -876,7 +876,7 @@ class ConstructingIntegers(Scene):
         relation[0][21].set_color(YELLOW)
         relation[0][23].set_color(BLUE)
         self.play(Write(relation))
-        self.wait(2)
+        self.wait(22)
         self.play(relation.animate.shift(2 * UP))
 
         # Firstly we prove that it is an equivalence relation, so it satisfies all the required properties
@@ -934,10 +934,12 @@ class ConstructingIntegers(Scene):
         self.play(FadeOut(transitivity, step1, step2, step3, step4, proof_title_3))
 
         # Intuition (before we look at what equivalence classes can offer to us, lets get some intuition on what does this relation tell us)
-        example = MathTex(r"(a, b)", r" \sim ", r"(c, d)", r"\; \Leftrightarrow \;" , r"a + c = b + d")
+        example = MathTex(r"(a, b)", r" \sim ", r"(c, d)", r"\; \text{means} \;" , r"a + c = b + d")
         self.play(Write(example))
+        self.wait(6)
         transformed_example = MathTex(r"a - b", "=", "d - c").move_to(example[-1])
         self.play(ReplacementTransform(example[-1], transformed_example))
+        self.wait(6)
         self.play(Indicate(example[0]), Indicate(transformed_example[0]))
         self.wait(2)
         self.play(Indicate(example[2], color = BLUE), Indicate(transformed_example[2], color = BLUE))
@@ -980,9 +982,12 @@ class ConstructingIntegers(Scene):
             self.play(ReplacementTransform(new_tuple, tuple_text))
             self.wait(2)
 
-        self.wait(2)
+        self.wait(4)
 
-        self.play(FadeOut(number_line, dot, tuple_text, relation))
+        self.play(FadeOut(number_line, dot, tuple_text), relation.animate.move_to(ORIGIN))
+
+        self.wait(10)
+        self.play(FadeOut(relation))
         
         ##########################################################################################################
         # It would be nice to group, and this is where the equivalence classes come 
@@ -993,12 +998,12 @@ class ConstructingIntegers(Scene):
 
 
         self.play(Write(definition))
-        self.wait(2)
+        self.wait(6)
         self.play(ReplacementTransform(definition[-2], definition2))
-        self.wait(2)
+        self.wait(6)
         self.play(definition.animate.shift(2 * UP))
         self.wait(2)
-        definition3 = MathTex(r"\mathbb{Z} = \{ [(a, b)] \mid a, b \in \mathbb{N} \}").move_to(definition)
+        definition3 = MathTex(r"\mathbb{Z} := \{ [(a, b)] \mid (a, b) \in R \}").move_to(definition)
 
         ### Example 1: [(3,1)]
         example1 = MathTex(r"[(3,1)] = \{ (2,0), (3,1), (4,2), (5,3), \dots \}")
@@ -1022,7 +1027,7 @@ class ConstructingIntegers(Scene):
 
         group2 = VGroup(result2, example2).shift(DOWN)
         self.play(Write(group2))
-        self.wait(2)
+        self.wait(10)
 
         self.play(FadeOut(group1, group2))
 
@@ -1034,7 +1039,6 @@ class ConstructingIntegers(Scene):
             include_numbers=True
         )
 
-        
         self.play(ReplacementTransform(definition, definition3))
 
         # Add the number line to the scene
@@ -1062,12 +1066,10 @@ class ConstructingIntegers(Scene):
             label = MathTex(eq_classes[0], font_size = 32).next_to(number_line.n2p(number), UP)
             if (number % 2 == 0):
                 label.set_color(YELLOW)
-            else:
-                label.set_color(BLUE)
             labels.append(label)
 
         self.play(*[Write(label) for label in labels])
-        self.wait(2)
+        self.wait(20)
 
         group_ = Group(*labels, number_line)
         self.play(group_.animate.shift(DOWN * 1.5))
@@ -1079,7 +1081,7 @@ class ConstructingIntegers(Scene):
             extra_labels1.append(label)
 
         self.play(*[Write(label) for label in extra_labels1], run_time=2)
-        self.wait(2)
+        self.wait(4)
 
         # Add third equivalence class representations with delay
         extra_labels2 = []
@@ -1088,7 +1090,7 @@ class ConstructingIntegers(Scene):
             extra_labels2.append(label)
 
         self.play(*[Write(label) for label in extra_labels2], run_time=2)
-        self.wait(2)
+        self.wait(4)
 
         self.play(FadeOut(number_line, *labels, *extra_labels1, *extra_labels2, group_, definition3))
         self.wait(2)
@@ -1100,7 +1102,7 @@ class IntegerOperations(Scene):
         title = Text("Integer Operations").to_edge(UP);
         self.play(Write(title))
 
-
+        self.wait(5)
         # Step 2: Define Integer Representation
         integer_repr = MathTex(r"[(a, b)] \text{ represents the integer } a - b")
         self.play(Write(integer_repr))
@@ -1184,7 +1186,6 @@ class IntegerOperations(Scene):
 
         self.play(FadeOut(computation_multiplication, computation_multiplication_box, multiplication))
 
-
 class MultiplicationAdditionFunctions(Scene):
     def construct(self):
         self.camera.background_color = "#DE8F5F"
@@ -1235,21 +1236,21 @@ class MultiplicationAdditionFunctions(Scene):
         self.wait(3)
 
         self.play(ReplacementTransform(machine_label, addition_symbol));
-        self.wait(3)
+        self.wait(2)
         
         # Show the example with 2, 3 as input, and output 5 for addition
         self.play(Transform(a_label, example_a), Transform(b_label, example_b), ReplacementTransform(c_label, example_c_addition))
-        self.wait(3)
+        self.wait(2)
 
         # Transition to subtraction function machine
         self.play(ReplacementTransform(addition_machine, subtraction_machine), ReplacementTransform(example_c_addition, example_c_subtraction))
-        self.wait(3)
+        self.wait(2)
         
         # Transition to multiplication function machine
         self.play(ReplacementTransform(subtraction_machine, multiplication_machine), ReplacementTransform(example_c_subtraction, example_c_multiplication))
-        self.wait(3)
+        self.wait(2)
 
-        self.play(FadeOut(subtraction_machine, multiplication_machine, example_c_multiplication))
+        self.play(FadeOut(subtraction_machine, multiplication_machine, example_c_multiplication, example_a, example_b, arrow_a, arrow_b, arrow_c))
         self.wait(2);
 
 class Conclusion(Scene):
@@ -1328,9 +1329,11 @@ class Conclusion(Scene):
 
         self.play(FadeOut(properties))
         self.wait(1)
+        peek(self, "Bye!", 50, False);
         self.play(conclusion_title.animate.move_to(ORIGIN))
         self.wait(1)
         self.play(FadeOut(conclusion_title))
+
 
 class EndScene(Scene):
     def construct(self):

@@ -33,7 +33,7 @@ def peek(self, string_of_text = None, fs = 35, latex = False, img_path = None):
                 self.play(Write(bubble_text.move_to(speech_bubble.get_center())))
             if (img_path != None):
                 self.play(FadeIn(img.move_to(speech_bubble.get_center())))
-            self.wait(1.5)  # Pause while peeking
+            self.wait(1)  # Pause while peeking
             if (string_of_text != None):
                 self.play(FadeOut(bubble_text))
             if (img_path != None):

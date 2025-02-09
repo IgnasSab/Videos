@@ -1,0 +1,3 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/1080p60/partial_movie_files/Quote/903864167_1647648597_223132457.mp4'
+file 'file:C:/Users/user/OneDrive/PC/Darbo/Programavimas/WorkspaceVS/Manim/video_2/media/videos/main/1080p60/partial_movie_files/Quote/1247537887_1039154947_914399802.mp4'
